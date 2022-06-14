@@ -12,7 +12,7 @@ function computerPlay() {
   }
 };
 
-function game(playerSelection, computerSelection) {
+function playRound(playerSelection, computerSelection) {
   if (typeof(playerSelection) !== 'string') return console.error('This is not a valid entry');
 
   let player = playerSelection.toLowerCase(),
@@ -26,35 +26,65 @@ function game(playerSelection, computerSelection) {
   if (player === 'rock') {
 
     if (computer === 'rock') {
-      return console.log('Tie')
+      return 'Tie'
     } else if (computer === 'paper') {
-      return console.log('You lose! Paper beats Rock')
+      return 'You lose! Paper beats Rock'
     } else {
-      return console.log('You win! Rock beats Scissors')
+      return 'You win! Rock beats Scissors'
     }
 
   }else if (player === 'paper') {
 
     if (computer === 'rock') {
-      return console.log('You win! Paper beats Rock')
+      return 'You win! Paper beats Rock'
     } else if (computer === 'paper') {
-      return console.log('Tie')
+      return 'Tie'
     } else {
-      return console.log('You lose! Scissors beats paper')
+      return 'You lose! Scissors beats paper'
     }
 
   } else {
 
     if (computer === 'rock') {
-      return console.log('You lose! Rock beats Scissors')
+      return 'You lose! Rock beats Scissors'
     } else if (computer === 'paper') {
-      return console.log('You win! Scissors beats Paper')
+      return 'You win! Scissors beats Paper'
     } else {
-      return console.log('Tie')
+      return 'Tie'
     }
 
   }
-
 }
 
+function game() {
+  let w = 0,
+      l = 0;
 
+  for (let i = 0; i < 5; i++) {
+    let playerSelection = prompt('Rock, Paper or Scissors?');
+
+    const computerSelection = computerPlay(),
+          round = playRound(playerSelection, computerSelection);
+
+    if (round.search('win') !== -1 ) {
+      console.log(round);
+      w++;
+      console.log(`You: ${w} - Computer: ${l}`);
+    } else if (round.search('lose') !== -1) {
+      console.log(round)
+      l++;
+      console.log(`You: ${w} - Computer: ${l}`)
+    } else if (round.search('Tie') !== -1) {
+      console.log(round);
+      i--;
+      console.log(`You: ${w} - Computer: ${l}`);
+    }
+ }
+
+ if (w>l) {
+  return console.log('Congratulations! You win the game!')
+ } else {
+  return console.log('Sorry, you lost! Maybe the next time.')
+ }
+
+}
