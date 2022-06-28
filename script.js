@@ -1,5 +1,14 @@
 'use strict'
 
+// Variables
+let w = 0,
+    l = 0;
+
+// Constants
+const $rock = document.querySelector('#rock'),
+      $paper = document.querySelector('#paper'),
+      $scissors = document.querySelector('#scissors');
+
 // This gets the random selection of the computer
 function computerPlay() {
   let computer = Math.floor(Math.random() * (3 - 1 + 1) + 1);
@@ -13,7 +22,7 @@ function computerPlay() {
   }
 };
 
-// This is a unique round of the game
+// This is a single round of the game
 function playRound(playerSelection, computerSelection) {
   if (typeof (playerSelection) !== 'string') return console.error('This is not a valid entry');
 
@@ -58,37 +67,41 @@ function playRound(playerSelection, computerSelection) {
   }
 }
 
+// This updates the score of winnings and looses
+function game(playerSelection) {
 
-// This is the complete game. It plays 5 rounds. The best score wins
-function game() {
-  let w = 0,
-    l = 0;
+  console.log("Estoy entrando al ciclo")
+  const computerSelection = computerPlay(),
+    round = playRound(playerSelection, computerSelection);
 
-  for (let i = 0; i < 5; i++) {
-    let playerSelection = prompt('Rock, Paper or Scissors?');
-
-    const computerSelection = computerPlay(),
-      round = playRound(playerSelection, computerSelection);
-
-    if (round.search('win') !== -1) {
-      console.log(round);
-      w++;
-      console.log(`You: ${w} - Computer: ${l}`);
-    } else if (round.search('lose') !== -1) {
-      console.log(round)
-      l++;
-      console.log(`You: ${w} - Computer: ${l}`)
-    } else if (round.search('Tie') !== -1) {
-      console.log(round);
-      i--;
-      console.log(`You: ${w} - Computer: ${l}`);
-    }
+  if (round.search('win') !== -1) {
+    console.log(round);
+    w++;
+    console.log(`You: ${w} - Computer: ${l}`);
+  } else if (round.search('lose') !== -1) {
+    console.log(round)
+    l++;
+    console.log(`You: ${w} - Computer: ${l}`)
+  } else if (round.search('Tie') !== -1) {
+    console.log(round);
+    console.log(`You: ${w} - Computer: ${l}`);
   }
-
-  if (w > l) {
-    return console.log('Congratulations! You win the game!')
-  } else {
-    return console.log('Sorry, you lost! Maybe the next time.')
-  }
-
 }
+
+// Click Events on Buttons
+$rock.addEventListener('click', () => {
+  game('rock');
+});
+
+$paper.addEventListener('click', () => {
+  game('paper');
+});
+
+$scissors.addEventListener('click', () => {
+  game('scissors');
+});
+
+/*
+  Only left to write the code for
+  winning or losing when reaches 5.
+*/
