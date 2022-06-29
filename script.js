@@ -8,8 +8,11 @@ let w = 0,
 const $rock = document.querySelector('#rock'),
   $paper = document.querySelector('#paper'),
   $scissors = document.querySelector('#scissors'),
-  $restart = document.createElement('button'),
-  $div = document.querySelector('.restart');
+  $restartBtn = document.createElement('button'),
+  $restart = document.querySelector('.restart'),
+  $message = document.querySelector('.message'),
+  $win = document.querySelector('#win'),
+  $lose = document.querySelector('#lose');
 
 // This gets the random selection of the computer
 function computerPlay() {
@@ -28,9 +31,6 @@ function computerPlay() {
 function playRound(playerSelection, computerSelection) {
   let player = playerSelection.toLowerCase(),
     computer = computerSelection.toLowerCase();
-
-  console.log(`Player Selection: ${player}`);
-  console.log(`Computer Selection ${computer}`);
 
   if (player === 'rock') {
 
@@ -71,33 +71,35 @@ function game(playerSelection) {
     round = playRound(playerSelection, computerSelection);
 
   if (round.search('win') !== -1) {
-    console.log(round);
+    $message.innerHTML = `${round}`;
     w++;
-    console.log(`You: ${w} - Computer: ${l}`);
+    $win.innerHTML = `${w}`;
   } else if (round.search('lose') !== -1) {
-    console.log(round)
+    $message.innerHTML = `${round}`;
     l++;
-    console.log(`You: ${w} - Computer: ${l}`)
+    $lose.innerHTML = `${l}`;
   } else if (round.search('Tie') !== -1) {
-    console.log(round);
-    console.log(`You: ${w} - Computer: ${l}`);
+    $message.innerHTML = `${round}`;
   }
 
-  if (w === 5 || l === 5) {
+  if (w === 5) {
+    $message.innerHTML = `Congratulations! You have won!`;
+    gameOver();
+  }
+
+  if (l === 5) {
+    $message.innerHTML = `You have lost! Maybe next time!`;
     gameOver();
   }
 }
 
 // Finishing the game when the score hits 5
 function gameOver() {
-  console.log('Game Over')
   $rock.setAttribute('disabled', 'true');
   $paper.setAttribute('disabled', 'true');
   $scissors.setAttribute('disabled', 'true');
-
-  $restart.innerHTML = 'Restart';
-
-  $div.appendChild($restart);
+  $restartBtn.innerHTML = 'Restart';
+  $restart.appendChild($restartBtn);
 }
 
 // Restarting the score to 0 and enabling the options
@@ -106,12 +108,13 @@ function restartGame() {
   $paper.removeAttribute('disabled');
   $scissors.removeAttribute('disabled');
 
-  $div.removeChild($restart);
+  $restart.removeChild($restartBtn);
+  $message.innerHTML = `Welcome to a new game!`;
 
   w = 0;
   l = 0;
-
-  console.clear();
+  $win.innerHTML = `${w}`;
+  $lose.innerHTML = `${l}`;
 }
 
 // Click Events on Buttons
@@ -127,6 +130,6 @@ $scissors.addEventListener('click', () => {
   game('scissors');
 });
 
-$restart.addEventListener('click', () => {
+$restartBtn.addEventListener('click', () => {
   restartGame();
 });
