@@ -2,12 +2,14 @@
 
 // Variables
 let w = 0,
-    l = 0;
+  l = 0;
 
 // Constants
 const $rock = document.querySelector('#rock'),
-      $paper = document.querySelector('#paper'),
-      $scissors = document.querySelector('#scissors');
+  $paper = document.querySelector('#paper'),
+  $scissors = document.querySelector('#scissors'),
+  $restart = document.createElement('button'),
+  $div = document.querySelector('.restart');
 
 // This gets the random selection of the computer
 function computerPlay() {
@@ -22,14 +24,10 @@ function computerPlay() {
   }
 };
 
-// This is a single round of the game
+// Playing a single round of the game
 function playRound(playerSelection, computerSelection) {
-  if (typeof (playerSelection) !== 'string') return console.error('This is not a valid entry');
-
   let player = playerSelection.toLowerCase(),
     computer = computerSelection.toLowerCase();
-
-  if (!(player === 'rock' || player === 'paper' || player === 'scissors')) return (console.error('Player must choose a valid option'))
 
   console.log(`Player Selection: ${player}`);
   console.log(`Computer Selection ${computer}`);
@@ -39,38 +37,36 @@ function playRound(playerSelection, computerSelection) {
     if (computer === 'rock') {
       return 'Tie'
     } else if (computer === 'paper') {
-      return 'You lose! Paper beats Rock'
+      return 'You lose! Paper covers Rock'
     } else {
-      return 'You win! Rock beats Scissors'
+      return 'You win! Rock smashes Scissors'
     }
 
   } else if (player === 'paper') {
 
     if (computer === 'rock') {
-      return 'You win! Paper beats Rock'
+      return 'You win! Paper covers Rock'
     } else if (computer === 'paper') {
       return 'Tie'
     } else {
-      return 'You lose! Scissors beats paper'
+      return 'You lose! Scissors cuts paper'
     }
 
   } else {
 
     if (computer === 'rock') {
-      return 'You lose! Rock beats Scissors'
+      return 'You lose! Rock smashes Scissors'
     } else if (computer === 'paper') {
-      return 'You win! Scissors beats Paper'
+      return 'You win! Scissors cuts Paper'
     } else {
       return 'Tie'
     }
-
   }
 }
 
-// This updates the score of winnings and looses
+// Updating the score of winnings and looses
 function game(playerSelection) {
 
-  console.log("Estoy entrando al ciclo")
   const computerSelection = computerPlay(),
     round = playRound(playerSelection, computerSelection);
 
@@ -86,6 +82,36 @@ function game(playerSelection) {
     console.log(round);
     console.log(`You: ${w} - Computer: ${l}`);
   }
+
+  if (w === 5 || l === 5) {
+    gameOver();
+  }
+}
+
+// Finishing the game when the score hits 5
+function gameOver() {
+  console.log('Game Over')
+  $rock.setAttribute('disabled', 'true');
+  $paper.setAttribute('disabled', 'true');
+  $scissors.setAttribute('disabled', 'true');
+
+  $restart.innerHTML = 'Restart';
+
+  $div.appendChild($restart);
+}
+
+// Restarting the score to 0 and enabling the options
+function restartGame() {
+  $rock.removeAttribute('disabled');
+  $paper.removeAttribute('disabled');
+  $scissors.removeAttribute('disabled');
+
+  $div.removeChild($restart);
+
+  w = 0;
+  l = 0;
+
+  console.clear();
 }
 
 // Click Events on Buttons
@@ -101,7 +127,6 @@ $scissors.addEventListener('click', () => {
   game('scissors');
 });
 
-/*
-  Only left to write the code for
-  winning or losing when reaches 5.
-*/
+$restart.addEventListener('click', () => {
+  restartGame();
+});
