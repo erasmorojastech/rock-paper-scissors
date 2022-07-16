@@ -9,5 +9,6 @@ This is an implementation of Rock Paper Scissors game from The Odin Project [cur
 * Use of console to get better at understanding of errors.
 
 ## Summary
+* Here is a [live preview](https://erasmorojastech.github.io/rock-paper-scissors/) of my solution
 * This game is still in development.
 * I tried to keep readable and understandable code, short functions and descriptive identifiers (considering that comments are missing)
